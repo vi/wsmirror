@@ -46,9 +46,8 @@ async fn serve_client(socket: tokio::net::TcpStream) -> anyhow::Result<()> {
                 penultimate_activity = last_activity;
                 last_activity = Instant::now();
                 match msg {
-                    None => return Ok(()),
-                    Some(Err(..)) => return Ok(()),
-                    Some(Ok(m @ Message::Text(..) | m @ Message::Binary(..))) => {
+                    None | Some(Err(..)) => return Ok(()),
+                    Some(Ok(m @ (Message::Text(..) | Message::Binary(..)))) => {
                         ws.send(m).await?;
                         if last_activity.saturating_duration_since(penultimate_activity) < Duration::from_millis(20) {
                             tokio::task::yield_now().await;
@@ -83,14 +82,14 @@ async fn main() -> Result<(), anyhow::Error> {
 
         tokio::spawn(async move {
             if CLIENT_COUNTER.load(std::sync::atomic::Ordering::SeqCst) >= MAX_CLIENTS {
-                let _ = socket
+                let _1 = socket
                     .write_all(b"HTTP/1.0 503 Too Many Clients Connected\r\n\r\n")
                     .await;
-                let _ = socket.shutdown().await;
+                let _2 = socket.shutdown().await;
                 CLIENT_COUNTER.fetch_sub(1, std::sync::atomic::Ordering::SeqCst);
                 return;
             }
-            let _ = serve_client(socket).await;
+            let _1 = serve_client(socket).await;
             CLIENT_COUNTER.fetch_sub(1, std::sync::atomic::Ordering::SeqCst);
         });
     }

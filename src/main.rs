@@ -64,7 +64,7 @@ async fn serve_client(socket: tokio::net::TcpStream) -> anyhow::Result<()> {
 async fn main() -> Result<(), anyhow::Error> {
     let args = std::env::args().collect::<Vec<_>>();
     if args.len() != 2 || args[1].starts_with('-') {
-        println!("Usage wsmirror <tcp_bind_socket_address>");
+        println!("Usage: wsmirror <tcp_bind_socket_address>");
         return Ok(());
     }
     let bindaddr: SocketAddr = args[1].parse()?;

@@ -6,7 +6,7 @@ It should work similar to like `echo.websocket.org` worked before.
 
 # Public instances
 
-* ws://ws.vi-server.org/, wss://ws.vi-server.org/
+* ws://ws.vi-server.org/mirror , wss://ws.vi-server.org/mirror
 * ws://vi-server.org:1939/
 
 

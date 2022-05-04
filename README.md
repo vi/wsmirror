@@ -21,3 +21,7 @@ Other options, such as maximum number of simultaneous clients, are configurable 
 # Metrics
 
 If you build the crate with `metrics` feature (not default) and set `PROMETHEUS_EXPORT_ADDR` environment variable to e.g. `127.0.0.1:1235` then Prometheus metrics would be exported on ` http://127.0.0.1:1235/metrics`.
+
+# See also
+
+* wss://echo.websocket.events/

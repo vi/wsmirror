@@ -16,3 +16,8 @@ It should work similar to like `echo.websocket.org` worked before.
 
 Specify socket address like `127.0.0.1:1234` or `[::]:8080` as a sole command line argument.  
 Other options, such as maximum number of simultaneous clients, are configurable only in source code constants.
+
+
+# Metrics
+
+If you build the crate with `metrics` feature (not default) and set `PROMETHEUS_EXPORT_ADDR` environment variable to e.g. `127.0.0.1:1235` then Prometheus metrics would be exported on ` http://127.0.0.1:1235/metrics`.

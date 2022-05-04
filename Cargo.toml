@@ -1,6 +1,6 @@
 [package]
 name = "wsmirror"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2018"
 description = "WebSocket (rfc6455) mirror for testing client implementations, like echo.websocket.org"
 keywords = ["WebSocket", "rfc6455", "cli"]

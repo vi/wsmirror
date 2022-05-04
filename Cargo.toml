@@ -12,13 +12,13 @@ repository = "https://github.com/vi/wsmirror"
 
 [dependencies]
 anyhow = "1.0.44"
+axum = { version = "0.5.1", default-features = false, optional = true, features=["http1"] }
 futures = "0.3.17"
-prometheus = { version = "0.13.0", features = ["process"],optional=true }
+prometheus = { version = "0.13.0", features = ["process"], default_features=false, optional=true }
 prometheus-metric-storage = {version="0.4.0",optional=true}
-prometheus_exporter = {version="0.8.4",optional=true}
 tokio = {version="1.12.0", features=["net","time","rt","macros"]}
 tokio-tungstenite = "0.17.0"
 
 [features]
 default=[]
-metrics=["prometheus","prometheus-metric-storage","prometheus_exporter"]
+metrics=["prometheus","prometheus-metric-storage","axum"]

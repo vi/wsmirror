@@ -87,3 +87,34 @@ impl Drop for ClientSessionMetrics {
         self.metrics.session_bytes.observe(self.bytes as f64);
     }
 }
+
+use axum::{
+    routing::{get},
+    http::StatusCode,
+    http::header,
+    response::IntoResponse,
+    Router,
+};
+use prometheus::Encoder;
+pub async fn expose_metrics(addr: std::net::SocketAddr) -> anyhow::Result<()> {
+      let app = Router::new()
+      .route("/metrics", get(metrics))
+      .fallback(get(root));
+
+    axum::Server::bind(&addr)
+        .serve(app.into_make_service())
+        .await?;
+    Ok(())
+}
+
+async fn root() -> impl IntoResponse {
+    (StatusCode::MOVED_PERMANENTLY, [(header::LOCATION, "/metrics")], "try /metrics for metrics\n")
+}
+
+async fn metrics() -> Vec<u8> {
+    let mut buf = Vec::with_capacity(4000);
+    let metric_families = prometheus::gather();
+    // Cannot Result<Vec<u8>> in Axum, so just ditching error handling away.
+    let _ = prometheus::TextEncoder::new().encode(&metric_families, &mut buf);
+    buf
+}

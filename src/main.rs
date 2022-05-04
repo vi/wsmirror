@@ -126,7 +126,8 @@ async fn main() -> Result<(), anyhow::Error> {
     #[cfg(feature = "metrics")]
     if let Ok(prometheus_addr) = std::env::var("PROMETHEUS_EXPORT_ADDR") {
         let prometheus_addr: SocketAddr = prometheus_addr.parse()?;
-        prometheus_exporter::start(prometheus_addr)?;
+        //prometheus_exporter::start(prometheus_addr)?;
+        tokio::spawn(metrics::expose_metrics(prometheus_addr));
     }
 
     loop {
